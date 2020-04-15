@@ -1,24 +1,85 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
-var connection = mysql.createConnection({
-  host: "localhost",
 
-  port: 3000,
+function getInfo(){ 
+  return inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'question1',
+        message: "What would you like to do?",
+        choices: [
+            'ADD department, role, or employee',
+            'VIEW departments, roles, or employees',
+            "UPDATE employee's role",
+        ]
+      },
+    ])
+//------------------------------------ADD-------------------------------------------------------
+    .then((answers) =>{
+      if (answers.question1 === "ADD department, role, or employee") {
+        return inquirer.prompt([
+          {
+            type: "list",
+            name: "add",
+            message: "Which would you like to add?",
+            choices: [
+              "Add department",
+              "Add role",
+              "Add employee",
+            ]
+          }
+        ])
+        .then((answers) => {
+          if (answers.add === "Add department") {
+            return inquirer.prompt([
+              {
+                type: "input",
+                name: "addDepartment",
+                message: "Which department would you like to add?"
+              }
+            ])  
+          }
+        })
+      }
 
-  user: "root",
+  //----------------------------------View--------------------------------------------
+      if(answers.question1 === "VIEW departments, roles, or employees") {
+        return inquirer.prompt([
+          {
+            type: "list",
+            name: "view",
+            message: "Which would you like to view?",
+            choices: [
+              "View departments",
+              "View roles",
+              "View employees",
+            ]
+          }
+        ])
+      }
 
-  password: "",
-  database: "employee_trackerDB"
-});
-
-connection.connect( error => {
-  if (error) throw error;
-  getInfo();
-});
-
-function getInfo(){
-//TODO- "What would you like to do?" - using Inquirer 
+  //------------------------------------Update----------------------------------------------------
+      if(answers.question1 === "UPDATE employee's role") {
+        return inquirer.prompt([
+          {
+            type: "list",
+            name: "update",
+            message: "Which role would you like to update?",
+            choices: [
+              "Manager",
+              "Software Engineer",
+              "Intern",
+            ]
+          }
+        ])
+      }
+    
+    
+    
+    
+    })
 
 //Switches inside of switches
 /*
@@ -35,4 +96,4 @@ function getInfo(){
 */
 }
 
-
+getInfo();
