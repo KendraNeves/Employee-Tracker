@@ -13,87 +13,149 @@ function getInfo(){
             'ADD department, role, or employee',
             'VIEW departments, roles, or employees',
             "UPDATE employee's role",
+            "Exit"
         ]
       },
     ])
-//------------------------------------ADD-------------------------------------------------------
     .then((answers) =>{
-      if (answers.question1 === "ADD department, role, or employee") {
-        return inquirer.prompt([
-          {
-            type: "list",
-            name: "add",
-            message: "Which would you like to add?",
-            choices: [
-              "Add department",
-              "Add role",
-              "Add employee",
-            ]
-          }
-        ])
-        .then((answers) => {
-          if (answers.add === "Add department") {
-            return inquirer.prompt([
-              {
-                type: "input",
-                name: "addDepartment",
-                message: "Which department would you like to add?"
-              }
-            ])  
-          }
-        })
+      switch(answers.question1) {
+      case "ADD department, role, or employee": 
+        return addPrompt();
+      case "VIEW departments, roles, or employees":
+        return viewPrompt();
+      case "UPDATE employee's role":
+        return updateRole();
+      case "Exit":
+        return;
       }
-
-  //----------------------------------View--------------------------------------------
-      if(answers.question1 === "VIEW departments, roles, or employees") {
-        return inquirer.prompt([
-          {
-            type: "list",
-            name: "view",
-            message: "Which would you like to view?",
-            choices: [
-              "View departments",
-              "View roles",
-              "View employees",
-            ]
-          }
-        ])
-      }
-
-  //------------------------------------Update----------------------------------------------------
-      if(answers.question1 === "UPDATE employee's role") {
-        return inquirer.prompt([
-          {
-            type: "list",
-            name: "update",
-            message: "Which role would you like to update?",
-            choices: [
-              "Manager",
-              "Software Engineer",
-              "Intern",
-            ]
-          }
-        ])
-      }
-    
-    
-    
-    
     })
+}  
 
-//Switches inside of switches
-/*
-- View info
-  - Departments
-  - Roles
-  - Employees
-- Add info
-  - Departments
-  - Roles
-  - Employees
-- Update info
-  - Roles
-*/
+
+// ================================= ADD ======================== /
+let addPrompt = () => {
+  return inquirer.prompt([
+    {
+      type: "list",
+      name: "add",
+      message: "Which would you like to add?",
+      choices: [
+        "Add department",
+        "Add role",
+        "Add employee",
+      ]
+    }
+  ])
+  .then((answers) => {
+    switch(answers.add) {
+    case "Add department": 
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "addDepartment",
+          message: "Which department would you like to add?"
+        }
+      ]) 
+    case "Add role":
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "addRole",
+          message: "Which role would you like to add?"
+        }
+      ])
+    case "Add employee":
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "addEmployee",
+          message: "Which employee would you like to add?"
+        }
+      ])
+    default: 
+      break;
+    }
+  })
+}
+//=====================================View-====================================================
+let viewPrompt = () => {
+  return inquirer.prompt([
+    {
+      type: "list",
+      name: "view",
+      message: "Which would you like to view?",
+      choices: [
+        "View departments",
+        "View roles",
+        "View employees",
+      ]
+    }
+  ])
+  .then((answers) => {
+    switch(answers.add) {
+    case "View departments": 
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "viewDepartment",
+          message: "Here are the current departments:"
+          //TODO- get and print all the departments here
+        }
+      ]) 
+    case "View roles":
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "viewRole",
+          message: "Here are the current roles:"
+          //TODO- get and print all here
+        }
+      ])
+    case "View employees":
+      return inquirer.prompt([
+        {
+          type: "input",
+          name: "viewEmployee",
+          message: "Here are the current employees:"
+           //TODO- get and print all here
+
+        }
+      ])
+    default: 
+      break;
+    }
+  })
+}
+//=====================================Update========================================
+let updateRole = () => {
+  return inquirer.prompt([
+    {
+      type: "list",
+      name: "update",
+      message: "Who's role do you want to update?",
+      choices: [
+        //TODO for each loop through all the employees names in seeds.sql and print them here
+      ]
+    }
+  ])
+  .then((answers) => {
+    return inquirer.prompt([
+      {
+        type: "list",
+        name: "update",
+        message: "What is this employee's new role?",
+        choices: [
+          //TODO- for each loop through all current roles
+        ]
+      }
+    ])
+  })
 }
 
-getInfo();
+
+
+
+
+
+
+getInfo()
